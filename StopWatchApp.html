@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRODIGY_WD_02</title>
+    <style>
+      h2 {
+        margin: 0px;
+        padding: 0px;
+        border: 40px;
+        box-shadow: 2px 2px 10px 2px rgb(35, 11, 217);
+        text-align: center;
+        color: rgb(18, 239, 62);
+      }
+      h1 {
+        text-align: center;
+        font-size: 80px;
+      }
+      #Form {
+        box-shadow: 2px 2px 10px 2px rgb(251, 45, 45);
+        overflow-y: auto;
+        width: 70%;
+        height: 400px;
+        margin-left: 190px;
+        margin-top: 70px;
+      }
+      button {
+        margin-left: 130px;
+      }
+      .bc {
+        margin-right: 20px;
+        cursor: pointer;
+      }
+      #btn {
+        box-shadow: 2px 2px 10px 2px rgb(251, 45, 45);
+      }
+      #start {
+        background-color: green;
+        color: white;
+      }
+      #stop {
+        background-color: red;
+        color: white;
+      }
+      #reset {
+        background-color: rgb(6, 4, 95);
+        color: white;
+      }
+      #lap {
+        background-color: rgb(128, 0, 119);
+        color: white;
+      }
+
+      h3,
+      #lapRecord {
+        text-align: center;
+
+        margin: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Stop Watch App</h2>
+    <form action="#" id="Form">
+      <h1>
+        <span id="S1">00</span>
+        <span>:</span>
+        <span id="S2">00</span>
+        <span>:</span>
+        <span id="S3">00</span>
+        <span>:</span>
+        <span id="S4">00</span>
+      </h1>
+
+      <button class="bc" id="start" onclick="START()">Start</button>
+      <button class="bc" id="stop" onclick="STOP()">Pause</button>
+      <button class="bc" id="reset" onclick="RESET()">Reset</button>
+      <button class="bc" id="lap" onclick="LAP()">Lap</button>
+      <h3>Laps:</h3>
+
+      <p id="lapRecord"></p>
+    </form>
+
+    <script>
+      var H = 0; // H = HOUR
+      var M = 0; // M = MINUTES
+      var S = 0; // S = SECOND
+      var C = 0; // C = COUNT
+      let lapNow = null;
+
+      function START() {
+        Time_Excution = true;
+        WATCH();
+      }
+      function STOP() {
+        Time_Excution = false;
+        WATCH();
+      }
+      function RESET() {
+        Time_Excution = false;
+        H = 0;
+        M = 0;
+        S = 0;
+        C = 0;
+        document.getElementById("S1").innerHTML = "00";
+        document.getElementById("S2").innerHTML = "00";
+        document.getElementById("S3").innerHTML = "00";
+        document.getElementById("S4").innerHTML = "00";
+      }
+      function LAP() {
+        if (Time_Excution) {
+          lapNow = H + " : " + M + " : " + S + " : " + C;
+          const lapItem = document.createElement("p");
+          lapItem.innerText = lapNow;
+          document.getElementById("lapRecord").appendChild(lapItem);
+        }
+      }
+      function WATCH() {
+        if (Time_Excution) {
+          C++;
+          if (C == 100) {
+            S++;
+            C = 0;
+          }
+          if (S == 60) {
+            M++;
+            S = 0;
+          }
+          if (M == 60) {
+            H++;
+            M = 0;
+          }
+
+          // Here lessthan 10 hour or minute or second or count I have to convert string.
+          let h = H;
+          let m = M;
+          let s = S;
+          let c = C;
+          if (H < 10) {
+            h = "0" + h;
+          }
+          if (M < 10) {
+            m = "0" + m;
+          }
+          if (S < 10) {
+            s = "0" + s;
+          }
+          if (C < 10) {
+            c = "0" + c;
+          }
+          //window.alert(H, M, S, C);
+          document.getElementById("S1").innerHTML = h;
+          document.getElementById("S2").innerHTML = m;
+          document.getElementById("S3").innerHTML = s;
+          document.getElementById("S4").innerHTML = c;
+
+          setTimeout(WATCH, 10);
+        }
+      }
+    </script>
+  </body>
+</html>
